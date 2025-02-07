@@ -6,7 +6,7 @@ class Student:
         self.finished_courses = []
         self.courses_in_progress = []
         self.grades = {}
-
+        
     def rate_lesson(self, lector, course, grade):
         if isinstance(lector, Lector) and course in self.courses_in_progress and grade in grade_list:
             if course in lector.grades:
@@ -15,6 +15,20 @@ class Student:
                 lector.grades[course] = [grade]
         else:
             return 'Ошибка'
+    
+    def avg(self): # Подсчет среднего значения всех оценок
+        self.gradeStatistic = []
+        for val in self.grades.values():
+            [self.gradeStatistic.append(i) for i in val]      
+        self.average = sum(self.gradeStatistic) / len(self.gradeStatistic)
+        return self.average
+        
+    def __str__(self): # Добавлен магический метод __str__ (задание 3)
+        return (f'Имя: {self.name}\n'
+                f'Фамилия: {self.surname}\n'
+                f'Средняя оценка за домашние задания: {self.avg()}\n'
+                f'Курсы в процессе изучения: {', '.join(self.courses_in_progress)}\n'
+                f'Завершенные курсы: {', '.join(self.finished_courses)}')
         
 class Mentor:
     def __init__(self, name, surname):
@@ -25,7 +39,19 @@ class Mentor:
 class Lector(Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
-        self.grades = {}   
+        self.grades = {}
+
+    def avg(self): # Подсчет среднего значения всех оценок
+        self.gradeStatistic = []
+        for val in self.grades.values():
+            [self.gradeStatistic.append(i) for i in val]      
+        self.average = sum(self.gradeStatistic) / len(self.gradeStatistic)
+        return self.average
+
+    def __str__(self): # Добавлен магический метод __str__ (задание 3)
+        return (f'Имя: {self.name}\n'
+                f'Фамилия: {self.surname}\n'
+                f'Средняя оценка за домашние задания: {self.avg()}\n')
 
 class Reviewer(Mentor):
     def __init__(self, name, surname):
@@ -39,22 +65,37 @@ class Reviewer(Mentor):
                 student.grades[course] = [grade]
         else:
             return 'Ошибка'
+    
+    def __str__(self): # Добавлен магический метод __str__ (задание 3)
+        return (f'Имя: {self.name}\n'
+                f'Фамилия: {self.surname}\n')
 
 grade_list = list(range(1,11))
 
-best_student = Student('Ruoy', 'Eman', 'your_gender')
-best_student.courses_in_progress += ['Python']
+some_student = Student('Ruoy', 'Eman', 'your_gender')
+some_student.courses_in_progress += ['Python']
+some_student.courses_in_progress += ['Git']
+some_student.finished_courses += ['Введение в программирование']
  
-cool_rev = Reviewer('Some', 'Buddy')
-cool_rev.courses_attached += ['Python']
+some_reviewer = Reviewer('Some', 'Buddy')
+some_reviewer.courses_attached += ['Python']
+some_reviewer.courses_attached += ['Git']
 
-best_lector = Lector('Ivan', 'Andreev')
+some_lecturer = Lector('Some', 'Buddy')
 
-cool_rev.rate_hw(best_student, 'Python', 8)
-cool_rev.rate_hw(best_student, 'Python', 9)
-cool_rev.rate_hw(best_student, 'Python', 10)
+some_reviewer.rate_hw(some_student, 'Python', 8)
+some_reviewer.rate_hw(some_student, 'Python', 9)
+some_reviewer.rate_hw(some_student, 'Python', 10)
+some_reviewer.rate_hw(some_student, 'Git', 10)
 
-best_student.rate_lesson(best_lector, 'Python', 8)
 
-print(best_student.name, best_student.grades)
-print(best_lector.name, best_lector.grades)
+some_student.rate_lesson(some_lecturer, 'Python', 8)
+
+# print(some_student.name, some_student.grades)
+# print(some_lecturer.name, some_lecturer.grades)
+
+print(some_reviewer)
+print()
+print(some_lecturer)
+print()
+print(some_student)
