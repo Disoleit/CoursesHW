@@ -22,6 +22,15 @@ class Student:
             [self.gradeStatistic.append(i) for i in val]      
         self.average = sum(self.gradeStatistic) / len(self.gradeStatistic)
         return self.average
+
+    def __eq__(self, student):
+        if isinstance(student, Student):
+            if self.avg() < student.avg():
+                return f'Студент {student.surname} ({student.avg()}) имеет средний бал выше чем у студента {self.surname} ({self.avg()})'
+            elif self.avg() > student.avg():
+                return f'Студент {self.surname} ({self.avg()}) имеет средний бал выше чем у студента {student.surname} ({student.avg()})'
+            else:
+                return f'У студентов {self.surname} и {student.surname} средние балы равны.'
         
     def __str__(self): # Добавлен магический метод __str__ (задание 3)
         return (f'Имя: {self.name}\n'
@@ -47,6 +56,15 @@ class Lector(Mentor):
             [self.gradeStatistic.append(i) for i in val]      
         self.average = sum(self.gradeStatistic) / len(self.gradeStatistic)
         return self.average
+
+    def __eq__(self, lecturer):
+        if isinstance(lecturer, Lector):
+            if self.avg() < lecturer.avg():
+                return f'Лектор {lecturer.surname} ({lecturer.avg()}) имеет средний бал выше чем у лектора {self.surname} ({self.avg()})'
+            elif self.avg() > lecturer.avg():
+                return f'ектор {self.surname} ({self.avg()}) имеет средний бал выше чем у лектора {lecturer.surname} ({lecturer.avg()})'
+            else:
+                return f'У лекторов {self.surname} и {lecturer.surname} средние балы равны.'
 
     def __str__(self): # Добавлен магический метод __str__ (задание 3)
         return (f'Имя: {self.name}\n'
@@ -78,7 +96,7 @@ some_student.courses_in_progress += ['Python']
 some_student.courses_in_progress += ['Git']
 some_student.finished_courses += ['Введение в программирование']
 
-second_student = Student('Kate', 'Eman', 'your_gender')
+second_student = Student('Kate', 'Rohn', 'your_gender')
 second_student.courses_in_progress += ['Git']
 second_student.finished_courses += ['Введение в программирование']
  
@@ -157,5 +175,15 @@ def grade_lector_avg(lecturer_list, course):
                 lecturer_grade_list.append(j)
     return(f'Cредняя оценка за домашние задания по всем лекторам в рамках курса {course} = {sum(lecturer_grade_list) / len(lecturer_grade_list)}')
 
-
 print(grade_lector_avg([some_lecturer, second_lecturer], 'Git'))
+print()
+"""
+Реализуйте возможность сравнивать (через операторы сравнения) между собой лекторов по средней оценке за лекции 
+и студентов по средней оценке за домашние задания.
+"""
+print('____________Доработка 3 задания______________')
+print()
+print(some_student.__eq__(second_student))
+print()
+print(some_lecturer.__eq__(second_lecturer))
+print()
